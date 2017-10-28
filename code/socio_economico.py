@@ -27,8 +27,8 @@ def split_table(files):
     return index_by_years
 
 def index_to_pandas(index_by_years):
-    year_file = pd.read_csv('../data/socioeconomico/perfil2014.csv')
-    print(year_file[index_by_years['2014'][0]:index_by_years['2014'][1]+1])
+    year_file = pd.read_csv('../data/socioeconomico/perfil2014.csv', dtype=object)
+    print(year_file[index_by_years['2014'][0]+1:index_by_years['2014'][1]-1])
 
 dici = open_dataset()
 final = split_table(dici)
