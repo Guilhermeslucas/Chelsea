@@ -58,6 +58,21 @@ def color_stats(tables_by_year, color=None):
         string_2016 = " Em 2016, a porcentagem de pardos foi "+tables_by_year['2016'][3].iloc[4,4]+"."
         return string_2014+string_2015+string_2016
 
+#make some analysis on economy issues
+def economical_stats(tables_by_year, salaries):
+    times = [1,2,3,5,7,10,15,20]
+    print(tables_by_year['2014'][9].iloc[2,3])
+    print(tables_by_year['2014'][9].iloc[3,3])
+    print(tables_by_year['2014'][9].iloc[4,3])
+    print(tables_by_year['2014'][9].iloc[5,3])
+    print(tables_by_year['2014'][9].iloc[6,3])
+    print(tables_by_year['2014'][9].iloc[7,3])
+    print(tables_by_year['2014'][9].iloc[8,3])
+    print(tables_by_year['2014'][9].iloc[9,3])
+    print(tables_by_year['2014'][9].iloc[10,3])
+    print(tables_by_year['2014'][9].iloc[11,3])
+
 dici = open_dataset()
 final = split_table(dici)
-print(color_stats(index_to_pandas(final),'pardo'))
+economical_stats(index_to_pandas(final), 2)
+#print(color_stats(index_to_pandas(final),'pardo'))
