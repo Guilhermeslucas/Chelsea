@@ -26,6 +26,7 @@ def split_table(files):
         index_by_years[key] = list_index
     return index_by_years
 
+#slicing the dataset to get all the tables separated
 def index_to_pandas(index_by_years):
     tables_by_year = {}
     for year, indexes in index_by_years.items():
@@ -39,6 +40,25 @@ def index_to_pandas(index_by_years):
 
     return tables_by_year
 
+#make some analysis on skin color of analised people
+def color_stats(tables_by_year):
+    color_dict = {'branco': 2, 'negro': 3, 'pardo': 4 }
+    print("Em 2014, a porcentagem de brancos foi "+tables_by_year['2014'][3].iloc[2,4])
+    print("Em 2015, a porcentagem de brancos foi "+tables_by_year['2015'][3].iloc[2,4])
+    print("Em 2016, a porcentagem de brancos foi "+tables_by_year['2016'][3].iloc[2,4])
+    print(" ")
+    print("Em 2014, a porcentagem de negros foi "+tables_by_year['2014'][3].iloc[3,4])
+    print("Em 2015, a porcentagem de negros foi "+tables_by_year['2015'][3].iloc[3,4])
+    print("Em 2016, a porcentagem de negros foi "+tables_by_year['2016'][3].iloc[3,4])
+    print(" ")
+    print("Em 2014, a porcentagem de pardos foi "+tables_by_year['2014'][3].iloc[4,4])
+    print("Em 2015, a porcentagem de pardos foi "+tables_by_year['2015'][3].iloc[4,4])
+    print("Em 2016, a porcentagem de pardos foi "+tables_by_year['2016'][3].iloc[4,4])
+
 dici = open_dataset()
 final = split_table(dici)
-print(index_to_pandas(final))
+color_stats(index_to_pandas(final))
+#for key, value in index_to_pandas(final).items():
+#    print("AAAAAAAAAAAAAAAAAAAAAAAAAaa")
+#    print(value[3].iloc[4,4])
+#    print("BBBBBBBBBBBBBBBBBBBBBBBBBBb")
