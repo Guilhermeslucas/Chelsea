@@ -60,19 +60,49 @@ def color_stats(tables_by_year, color=None):
 
 #make some analysis on economy issues
 def economical_stats(tables_by_year, salaries):
-    times = [1,2,3,5,7,10,15,20]
-    print(tables_by_year['2014'][9].iloc[2,3])
-    print(tables_by_year['2014'][9].iloc[3,3])
-    print(tables_by_year['2014'][9].iloc[4,3])
-    print(tables_by_year['2014'][9].iloc[5,3])
-    print(tables_by_year['2014'][9].iloc[6,3])
-    print(tables_by_year['2014'][9].iloc[7,3])
-    print(tables_by_year['2014'][9].iloc[8,3])
-    print(tables_by_year['2014'][9].iloc[9,3])
-    print(tables_by_year['2014'][9].iloc[10,3])
-    print(tables_by_year['2014'][9].iloc[11,3])
+    times = [1,2,3,5,7,10,15,20,21]
+    if salaries == 1:
+        string_2014 = tables_by_year['2014'][9].iloc[2,3]
+        string_2015 = tables_by_year['2015'][9].iloc[2,3]
+        string_2016 = tables_by_year['2016'][9].iloc[2,3]
+    elif salaries == 2:
+        string_2014 = tables_by_year['2014'][9].iloc[3,3]
+        string_2015 = tables_by_year['2015'][9].iloc[3,3]
+        string_2016 = tables_by_year['2016'][9].iloc[3,3]
+    elif salaries == 3:
+        string_2014 = tables_by_year['2014'][9].iloc[4,3]
+        string_2015 = tables_by_year['2015'][9].iloc[4,3]
+        string_2016 = tables_by_year['2016'][9].iloc[4,3]
+    elif salaries == 5:
+        string_2014 = tables_by_year['2014'][9].iloc[5,3]
+        string_2015 = tables_by_year['2015'][9].iloc[5,3]
+        string_2016 = tables_by_year['2016'][9].iloc[5,3]
+    elif salaries == 7:
+        string_2014 = tables_by_year['2014'][9].iloc[6,3]
+        string_2015 = tables_by_year['2015'][9].iloc[6,3]
+        string_2016 = tables_by_year['2016'][9].iloc[6,3]
+    elif salaries == 10:
+        string_2014 = tables_by_year['2014'][9].iloc[7,3]
+        string_2015 = tables_by_year['2015'][9].iloc[7,3]
+        string_2016 = tables_by_year['2016'][9].iloc[7,3]
+    elif salaries == 15:
+        string_2014 = tables_by_year['2014'][9].iloc[8,3]
+        string_2015 = tables_by_year['2015'][9].iloc[8,3]
+        string_2016 = tables_by_year['2016'][9].iloc[8,3]
+    elif salaries == 20:
+        string_2014 = tables_by_year['2014'][9].iloc[9,3]
+        string_2015 = tables_by_year['2015'][9].iloc[9,3]
+        string_2016 = tables_by_year['2016'][9].iloc[9,3]
+    else:
+        string_2014 = tables_by_year['2014'][9].iloc[10,3]
+        string_2015 = tables_by_year['2014'][9].iloc[10,3]
+        string_2016 = tables_by_year['2014'][9].iloc[10,3]
+
+    return 'A porcentagem de pessoas com renda de '+str(salaries)+' salarios foi: 2014: '+string_2014+' 2015: '+string_2015+' 2016: '+string_2016
 
 dici = open_dataset()
 final = split_table(dici)
+index_tables = index_to_pandas(final)
 economical_stats(index_to_pandas(final), 2)
 #print(color_stats(index_to_pandas(final),'pardo'))
+print(economical_stats(index_tables,2))
