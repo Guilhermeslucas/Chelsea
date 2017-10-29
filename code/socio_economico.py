@@ -46,17 +46,15 @@ def color_stats(tables_by_year, color=None):
         string_2014 = "Em 2014, a porcentagem de brancos foi "+tables_by_year['2014'][3].iloc[2,4]+"."
         string_2015 = " Em 2015, a porcentagem de brancos foi "+tables_by_year['2015'][3].iloc[2,4]+"."
         string_2016 = " Em 2016, a porcentagem de brancos foi "+tables_by_year['2016'][3].iloc[2,4]+"."
-        return string_2014+string_2015+string_2016
     elif color == 'negro':
         string_2014 = "Em 2014, a porcentagem de negros foi "+tables_by_year['2014'][3].iloc[3,4]+"."
         string_2015 = " Em 2015, a porcentagem de negros foi "+tables_by_year['2015'][3].iloc[3,4]+"."
         string_2016 = " Em 2016, a porcentagem de negros foi "+tables_by_year['2016'][3].iloc[3,4]+"."
-        return string_2014+string_2015+string_2016
     elif color == 'pardo':
         string_2014 = "Em 2014, a porcentagem de pardos foi "+tables_by_year['2014'][3].iloc[4,4]+"."
         string_2015 = " Em 2015, a porcentagem de pardos foi "+tables_by_year['2015'][3].iloc[4,4]+"."
         string_2016 = " Em 2016, a porcentagem de pardos foi "+tables_by_year['2016'][3].iloc[4,4]+"."
-        return string_2014+string_2015+string_2016
+    return {'messages': [{'text': string_2014+string_2015+string_2016}]}
 
 #make some analysis on economy issues
 def economical_stats(tables_by_year, salaries):
@@ -98,11 +96,25 @@ def economical_stats(tables_by_year, salaries):
         string_2015 = tables_by_year['2014'][9].iloc[10,3]
         string_2016 = tables_by_year['2014'][9].iloc[10,3]
 
-    return 'A porcentagem de pessoas com renda de '+str(salaries)+' salarios foi: 2014: '+string_2014+' 2015: '+string_2015+' 2016: '+string_2016
+    return {'messages': [{'text':'A porcentagem de pessoas com renda de '+str(salaries)+' salarios foi: 2014: '+string_2014+' 2015: '+string_2015+' 2016: '+string_2016}]}
 
-dici = open_dataset()
-final = split_table(dici)
-index_tables = index_to_pandas(final)
-economical_stats(index_to_pandas(final), 2)
-#print(color_stats(index_to_pandas(final),'pardo'))
-print(economical_stats(index_tables,2))
+#execute the social analysis
+def execute_socio_analisys(salaries):
+    dici = open_dataset()
+    final = split_table(dici)
+    index_tables = index_to_pandas(final)
+    return economical_stats(index_tables, salaries)
+
+#execute the color analysis
+def execute_color_analisys(color):
+    color = color.lower()
+    dici = open_dataset()
+    final = split_table(dici)
+    index_tables = index_to_pandas(final)
+    return color_stats(index_tables,color)
+
+#argument is the namber os salaries families live with
+print(execute_socio_analisys(2))
+print("outra")
+#argument is what color you want two know the percent of
+print(execute_color_analisys('negro'))
