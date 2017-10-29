@@ -48,20 +48,20 @@ def setup():
 
 def get_all_relative_expense_last_6_years():
     health, education = setup()
-    return ("%.2f" % float(health/sum(budget)), "%.2f" % float(education/sum(budget)))
+    return {'messages': [{'text':'A porcentagem gasta com saúde nos últimos 6 anos foi de ' + '{0:.2f}'.format(100*float(health/sum(budget))) + '%' + ' e a com educação foi de ' + '{0:.2f}'.format(100*float(education/sum(budget))) + '%'}]}
 
 def get_relative_expense_last_6_years(type):
     health, education = setup()
     if type == 'health':
-        return "%.2f" % float(health/sum(budget))
+        return {'messages': [{'text':'A porcentagem gasta com saúde nos últimos 6 anos foi de: '+ '{0:.2f}'.format(100*float(health/sum(budget))) + '%'}]}
     else:
-        return "%.2f" % float(education/sum(budget))
+        return {'messages': [{'text':'A porcentagem gasta com saúde nos últimos 6 anos foi de: '+ '{0:.2f}'.format(100*float(education/sum(budget))) + '%'}]}
 
 def get_abs_expense_last_6_years(type):
     health, education = setup()
     if type == 'health':
-        return "%.2f" % health
+        return {'messages': [{'text':'A porcentagem gasta com saúde nos últimos 6 anos foi de: '+ '{0:.2f}'.format(health) + '%'}]}
     else:
-        return "%.2f" % education
+        return {'messages': [{'text':'A porcentagem gasta com saúde nos últimos 6 anos foi de: '+ '{0:.2f}'.format(education) + '%'}]}
 
 
