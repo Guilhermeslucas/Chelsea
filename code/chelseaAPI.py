@@ -53,7 +53,7 @@ api.add_resource(DataBySalary, '/social/salary/<salary>')
 api.add_resource(SalaryByName, '/salary/nome/<name>/<uni>')
 api.add_resource(SalaryByTitle, '/salary/cargo/<title>/<uni>')
 api.add_resource(SalaryByInstitute, '/salary/instituto/<inst>/<uni>')
-api.add_resource(AllExpenses, '/expenses/todas')
+api.add_resource(AllExpenses, '/expenses/todas/<anything>')
 api.add_resource(ExpensesPerArea, '/expenses/relativas/<area>')
 api.add_resource(AbsExpensesPerArea, '/expenses/absolutas/<area>')
 

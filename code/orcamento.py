@@ -53,13 +53,13 @@ def get_all_relative_expense_last_6_years():
 def get_relative_expense_last_6_years(type):
     health, education = setup()
     if type == 'saude':
-        return {'messages': [{'text':'A porcentagem gasta com saúde nos últimos 6 anos foi de: '+ '{0:.2f}'.format(100*float(health/sum(budget))) + '%'}]}
+        return {'messages': [{'text':'Dei uma olhada aqui e vi que a porcentagem das despesas da Unicamp gasta com saúde nos últimos 6 anos foi de '+ '{0:.2f}'.format(100*float(health/sum(budget))) + '%'}]}
     else:
-        return {'messages': [{'text':'A porcentagem gasta com saúde nos últimos 6 anos foi de: '+ '{0:.2f}'.format(100*float(education/sum(budget))) + '%'}]}
+        return {'messages': [{'text':'Dei uma olhada aqui e vi que a porcentagem das despesas da Unicamp gasta com educação nos últimos 6 anos foi de '+ '{0:.2f}'.format(100*float(education/sum(budget))) + '%'}]}
 
 def get_abs_expense_last_6_years(type):
     health, education = setup()
     if type == 'saude':
-        return {'messages': [{'text':'A porcentagem gasta com saúde nos últimos 6 anos foi de: '+ '{0:.2f}'.format(health) + '%'}]}
+        return {'messages': [{'text':'Dei uma olhada aqui e vi que as despesas da Unicamp com saúde nos últimos 6 anos foram de R$'+ '{0:.2f}'.format(health)}]}
     else:
-        return {'messages': [{'text':'A porcentagem gasta com saúde nos últimos 6 anos foi de: '+ '{0:.2f}'.format(education) + '%'}]}
+        return {'messages': [{'text':'Dei uma olhada aqui e vi que as despesas da Unicamp com educação nos últimos 6 anos foram de R$'+ '{0:.2f}'.format(education)}]}
