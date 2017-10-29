@@ -1,0 +1,67 @@
+#!/usr/bin/env python3 
+import pandas as pd
+import re
+
+
+# i = 0
+# with open('../DespesaUnicamp2017.csv', 'r', encoding='ISO-8859-1') as f, open('../DespesaUnicamp2017_FINAL.csv', 'w+', encoding='ISO-8859-1') as w:
+#     for line in f:
+#         print(line)
+#         if i > 0:
+#             w.write('"'.join(line[106:].split('""'))[:-3]+'\n')
+#         i += 1
+
+# regex = re.compile('\"[A-Za-z0-9\-\.\,\s]+\"')
+# with open('../DespesaUnicamp2015_FINAL.csv', 'r', encoding='ISO-8859-1') as f, open('../2015_FINAL.csv', 'w+') as w:
+#     for line in f:
+#         for group in regex.split(line[:-1]):
+#             if group is not ',' and group is not '':
+#                 data = []
+#                 for e in group.split(','):
+#                     if e is not '':
+#                         data.append('"' + e + '"')
+#                 data = ','.join(data)
+#         line = line.partition('"')
+#         w.write(data + ',' + '"' + line[2][:-2] + '\n')
+
+# headers = 'UO,Unidade Gestora,Fonte de Recursos,Função,Sub Função,Programa,Ação,Funcional Programática,Elemento,Dotação Inicial,Dotação Atual,Empenhado,Liquidado,Pago,Pago Restos'
+
+
+         #  2011        2012        2013         2014       2015        2016
+budget = [2276804928, 2312319824, 2412955247, 2324035947, 2229499377, 2024419045]
+
+def setup():
+    file = '../DespesaUnicamp'
+    years = ['2011', '2012', '2013', '2014', '2015', '2016']
+    health = 0
+    education = 0
+    for y in years:       
+        data = pd.read_csv('../data/orcamento/'+str(y)+'_FINAL.csv', dtype=str, header=0)
+        for index, row in data.iterrows():
+            if 'saude' in row[0].lower():
+                health += float(row[3].replace('.', '').replace(',', '.').strip())
+            elif 'educacao' in row[0].lower():
+                education += float(row[3].replace('.', '').replace(',', '.').strip())
+    return health, education
+# print("{0:.2f}".format(health))
+# print("{0:.2f}".format(education))
+
+def get_all_relative_expense_last_6_years():
+    health, education = setup()
+    return ("%.2f" % float(health/sum(budget)), "%.2f" % float(education/sum(budget)))
+
+def get_relative_expense_last_6_years(type):
+    health, education = setup()
+    if type == 'health':
+        return "%.2f" % float(health/sum(budget))
+    else:
+        return "%.2f" % float(education/sum(budget))
+
+def get_abs_expense_last_6_years(type):
+    health, education = setup()
+    if type == 'health':
+        return "%.2f" % health
+    else:
+        return "%.2f" % education
+
+
