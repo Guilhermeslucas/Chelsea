@@ -98,14 +98,14 @@ def economical_stats(tables_by_year, salaries):
 
     return {'messages': [{'text':'A porcentagem de pessoas com renda de '+str(salaries)+' salarios foi: 2014: '+string_2014+' 2015: '+string_2015+' 2016: '+string_2016}]}
 
-#execute the social analysis
+#execute the social analysis. this should be called from api
 def execute_socio_analisys(salaries):
     dici = open_dataset()
     final = split_table(dici)
     index_tables = index_to_pandas(final)
     return economical_stats(index_tables, salaries)
 
-#execute the color analysis
+#execute the color analysis. this should be called from api
 def execute_color_analisys(color):
     color = color.lower()
     dici = open_dataset()
