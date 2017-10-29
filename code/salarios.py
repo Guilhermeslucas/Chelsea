@@ -6,7 +6,7 @@ import re
 import seaborn as sns
 
 
-dataset = pd.read_csv('setembro-2017-6.csv',header=None, error_bad_lines=False,sep=';', names=['Matricula','Nome','Referencia','Bruto','Indenizacoes','Redutor','Descontos_Legais','Liquido','Instituto','Cargo','Deletar'])
+dataset = pd.read_csv('../data/salarios/setembro-2017-6.csv',header=None, error_bad_lines=False,sep=';', names=['Matricula','Nome','Referencia','Bruto','Indenizacoes','Redutor','Descontos_Legais','Liquido','Instituto','Cargo','Deletar'])
 dataset.drop('Deletar', axis=1, inplace=True)
 cargos_nulos = dataset.Cargo.isnull()
 dataset.Cargo.loc[cargos_nulos] = dataset.Instituto.loc[cargos_nulos]
@@ -18,12 +18,12 @@ dataset.Indenizacoes.loc[cargos_nulos] = dataset.Bruto.loc[cargos_nulos]
 dataset.Bruto.loc[cargos_nulos] = dataset.Referencia.loc[cargos_nulos]
 dataset.Referencia.loc[cargos_nulos] = ''
 dataset.Instituto = dataset.Instituto.replace('.* (.*)', value=r'\1', regex=True)
-dataset_usp = pd.read_csv('USP.txt',index_col=False,error_bad_lines=False,sep=';')
+dataset_usp = pd.read_csv('../data/salarios/USP.txt',index_col=False,error_bad_lines=False,sep=';')
 
 def get_nome(lista,nome_dado):
     nomes_dado = nome_dado.lower().split()
     for nome_busca in lista:
-        nomes_busca = nome_busca.lower().split()  
+        nomes_busca = nome_busca.lower().split()
         if len(nomes_dado) == 1:
             if nomes_dado[0] == nomes_busca[0]:
                 yield nome_busca
@@ -36,11 +36,11 @@ def get_nome(lista,nome_dado):
                             sobrenomes+=1
                 if sobrenomes == len(nomes_dado):
                     yield nome_busca
-    
+
 def get_cargo(lista,cargo_dado):
     cargos_dado = cargo_dado.lower().split()
     for cargo_busca in lista:
-        cargos_busca = cargo_busca.lower().split()  
+        cargos_busca = cargo_busca.lower().split()
         nomes = 0
         for i in range(0,len(cargos_dado)):
             for j in range(0,len(cargos_busca)):
@@ -48,9 +48,9 @@ def get_cargo(lista,cargo_dado):
                     nomes+=1
                 if nomes == len(cargos_dado):
                     yield cargo_busca
-        
+
 def get_instituto(lista,inst_dado):
-    inst_dado = inst_dado.lower()    
+    inst_dado = inst_dado.lower()
     for i in range(len(lista)):
         institutos = lista[i].lower().split('/')
         for instituto in institutos:
@@ -59,7 +59,7 @@ def get_instituto(lista,inst_dado):
 
 # devolve os salarios por nome
 def salario_nome(nome,uni='unicamp'):
-    if(uni == 'unicamp'):    
+    if(uni == 'unicamp'):
         nomes = pd.DataFrame(list(get_nome(dataset.Nome,nome)),columns=['Nome'])
         lista_nomes = []
         if(nomes.shape[0] == 0):
@@ -93,10 +93,10 @@ def salario_nome(nome,uni='unicamp'):
                 string4 = '\n-------------------------------------------------\n'
                 lista_nomes.append({'text': string1+string2+string3+string4})
         return {'messages': lista_nomes}
-        
-#devolve os salarios do cargo(titulo)     
+
+#devolve os salarios do cargo(titulo)
 def salario_cargo(titulo, uni='unicamp'):
-    if(uni=='unicamp'):    
+    if(uni=='unicamp'):
         cargos = pd.DataFrame(list(get_cargo(dataset.Cargo.astype(str),titulo)),columns=['Cargo'])
         lista_cargos = []
         if(cargos.shape[0] == 0):
