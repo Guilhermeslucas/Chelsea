@@ -6,7 +6,7 @@ import re
 import seaborn as sns
 
 
-dataset = pd.read_csv('../data/salarios/setembro-2017-6.csv',header=None, error_bad_lines=False,sep=';', names=['Matricula','Nome','Referencia','Bruto','Indenizacoes','Redutor','Descontos_Legais','Liquido','Instituto','Cargo','Deletar'])
+dataset = pd.read_csv('setembro-2017-6.csv',header=None, error_bad_lines=False,sep=';', names=['Matricula','Nome','Referencia','Bruto','Indenizacoes','Redutor','Descontos_Legais','Liquido','Instituto','Cargo','Deletar'])
 dataset.drop('Deletar', axis=1, inplace=True)
 cargos_nulos = dataset.Cargo.isnull()
 dataset.Cargo.loc[cargos_nulos] = dataset.Instituto.loc[cargos_nulos]
@@ -18,12 +18,12 @@ dataset.Indenizacoes.loc[cargos_nulos] = dataset.Bruto.loc[cargos_nulos]
 dataset.Bruto.loc[cargos_nulos] = dataset.Referencia.loc[cargos_nulos]
 dataset.Referencia.loc[cargos_nulos] = ''
 dataset.Instituto = dataset.Instituto.replace('.* (.*)', value=r'\1', regex=True)
-dataset_usp = pd.read_csv('../data/salarios/USP.txt',index_col=False,error_bad_lines=False,sep=';')
+dataset_usp = pd.read_csv('USP.txt',index_col=False,error_bad_lines=False,sep=';')
 
 def get_nome(lista,nome_dado):
     nomes_dado = nome_dado.lower().split()
     for nome_busca in lista:
-        nomes_busca = nome_busca.lower().split()
+        nomes_busca = nome_busca.lower().split()  
         if len(nomes_dado) == 1:
             if nomes_dado[0] == nomes_busca[0]:
                 yield nome_busca
@@ -36,11 +36,11 @@ def get_nome(lista,nome_dado):
                             sobrenomes+=1
                 if sobrenomes == len(nomes_dado):
                     yield nome_busca
-
+    
 def get_cargo(lista,cargo_dado):
     cargos_dado = cargo_dado.lower().split()
     for cargo_busca in lista:
-        cargos_busca = cargo_busca.lower().split()
+        cargos_busca = cargo_busca.lower().split()  
         nomes = 0
         for i in range(0,len(cargos_dado)):
             for j in range(0,len(cargos_busca)):
@@ -48,9 +48,9 @@ def get_cargo(lista,cargo_dado):
                     nomes+=1
                 if nomes == len(cargos_dado):
                     yield cargo_busca
-
+        
 def get_instituto(lista,inst_dado):
-    inst_dado = inst_dado.lower()
+    inst_dado = inst_dado.lower()    
     for i in range(len(lista)):
         institutos = lista[i].lower().split('/')
         for instituto in institutos:
@@ -59,11 +59,11 @@ def get_instituto(lista,inst_dado):
 
 # devolve os salarios por nome
 def salario_nome(nome,uni='unicamp'):
-    if(uni == 'unicamp'):
+    if(uni == 'unicamp'):    
         nomes = pd.DataFrame(list(get_nome(dataset.Nome,nome)),columns=['Nome'])
         lista_nomes = []
         if(nomes.shape[0] == 0):
-            return {'message': [{'text': 'Nome não encontrado'}]}
+            return {'messages': [{'text': 'Nome não encontrado'}]}
         for name in nomes.Nome:
             nomes_iguais = dataset.loc[dataset.Nome==name]
             nomes_iguais = nomes_iguais.reset_index()
@@ -75,12 +75,12 @@ def salario_nome(nome,uni='unicamp'):
                 string3 = '\nSalário Líquido(pós descontos): R${:,.2f}'.format(nomes_iguais.Liquido[i])
                 string4 = '\n-------------------------------------------------\n'
                 lista_nomes.append({'text': string1+string2+string3+string4})
-        return {'message': lista_nomes}
+        return {'messages': lista_nomes}
     if(uni == 'usp'):
         nomes = pd.DataFrame(list(get_nome(dataset_usp.Nome,nome)),columns=['Nome'])
         lista_nomes = []
         if(nomes.shape[0] == 0):
-            return {'message': [{'text': 'Nome não encontrado'}]}
+            return {'messages': [{'text': 'Nome não encontrado'}]}
         for name in nomes.Nome:
             nomes_iguais = dataset_usp.loc[dataset_usp.Nome==name]
             nomes_iguais = nomes_iguais.reset_index()
@@ -92,15 +92,15 @@ def salario_nome(nome,uni='unicamp'):
                 string3 = '\nSalário Líquido(pós descontos): R${:,.2f}'.format(nomes_iguais.Liquido[i])
                 string4 = '\n-------------------------------------------------\n'
                 lista_nomes.append({'text': string1+string2+string3+string4})
-        return {'message': lista_nomes}
-
-#devolve os salarios do cargo(titulo)
+        return {'messages': lista_nomes}
+        
+#devolve os salarios do cargo(titulo)     
 def salario_cargo(titulo, uni='unicamp'):
-    if(uni=='unicamp'):
+    if(uni=='unicamp'):    
         cargos = pd.DataFrame(list(get_cargo(dataset.Cargo.astype(str),titulo)),columns=['Cargo'])
         lista_cargos = []
         if(cargos.shape[0] == 0):
-            return {'message': [{'text': 'Cargo não encontrado'}]}
+            return {'messages': [{'text': 'Cargo não encontrado'}]}
         cargos.drop_duplicates(inplace=True)
         for cargo in cargos.Cargo:
             string1 = 'Cargo: ' + cargo
@@ -109,13 +109,13 @@ def salario_cargo(titulo, uni='unicamp'):
             string4 = '\nSalário Líquido Médio(pós descontos): R${:,.2f}'.format(dataset.Liquido.loc[dataset.Cargo == cargo].astype(float).mean())
             string5 = '\n-------------------------------------------------\n'
             lista_cargos.append({'text': string1+string2+string3+string4+string5})
-        return {'message': lista_cargos}
+        return {'messages': lista_cargos}
 
     if(uni=='usp'):
         cargos = pd.DataFrame(list(get_cargo(dataset_usp.Cargo.astype(str),titulo)),columns=['Cargo'])
         lista_cargos = []
         if(cargos.shape[0] == 0):
-            return {'message': [{'text': 'Cargo não encontrado'}]}
+            return {'messages': [{'text': 'Cargo não encontrado'}]}
         cargos.drop_duplicates(inplace=True)
         for cargo in cargos.Cargo:
             string1 = 'Cargo: ' + cargo
@@ -124,7 +124,7 @@ def salario_cargo(titulo, uni='unicamp'):
             string4 = '\nSalário Líquido Médio(pós descontos): R${:,.2f}'.format(dataset_usp.Liquido.loc[dataset_usp.Cargo == cargo].astype(float).mean())
             string5 = '\n-------------------------------------------------\n'
             lista_cargos.append({'text': string1+string2+string3+string4+string5})
-        return {'message': lista_cargos}
+        return {'messages': lista_cargos}
 
 # devolve os gastos com funcionarios por instituto(titulo)
 def salario_instituto(titulo, uni='unicamp'):
