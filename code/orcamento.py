@@ -1,4 +1,4 @@
-#!/usr/bin/env python3 
+#!/usr/bin/env python3
 import pandas as pd
 import re
 
@@ -35,7 +35,7 @@ def setup():
     years = ['2011', '2012', '2013', '2014', '2015', '2016']
     health = 0
     education = 0
-    for y in years:       
+    for y in years:
         data = pd.read_csv('../data/orcamento/'+str(y)+'_FINAL.csv', dtype=str, header=0)
         for index, row in data.iterrows():
             if 'saude' in row[0].lower():
@@ -52,16 +52,14 @@ def get_all_relative_expense_last_6_years():
 
 def get_relative_expense_last_6_years(type):
     health, education = setup()
-    if type == 'health':
+    if type == 'saude':
         return {'messages': [{'text':'A porcentagem gasta com saúde nos últimos 6 anos foi de: '+ '{0:.2f}'.format(100*float(health/sum(budget))) + '%'}]}
     else:
         return {'messages': [{'text':'A porcentagem gasta com saúde nos últimos 6 anos foi de: '+ '{0:.2f}'.format(100*float(education/sum(budget))) + '%'}]}
 
 def get_abs_expense_last_6_years(type):
     health, education = setup()
-    if type == 'health':
+    if type == 'saude':
         return {'messages': [{'text':'A porcentagem gasta com saúde nos últimos 6 anos foi de: '+ '{0:.2f}'.format(health) + '%'}]}
     else:
         return {'messages': [{'text':'A porcentagem gasta com saúde nos últimos 6 anos foi de: '+ '{0:.2f}'.format(education) + '%'}]}
-
-
